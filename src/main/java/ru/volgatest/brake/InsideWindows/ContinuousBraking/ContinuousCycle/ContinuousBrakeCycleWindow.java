@@ -37,26 +37,34 @@ public class ContinuousBrakeCycleWindow extends VBox {
 //    LimitedIntegerField cycleDuration = new LimitedIntegerField("Длительность цикла", "s", 0, 500, 0);
 //    LimitedIntegerField cycleCount = new LimitedIntegerField("Количество циклов", "", 0, 500, 0);
 
+    LimitedIntegerField tMin;
+    LimitedIntegerField tMax;
+    LimitedFloatField slope;
+    LimitedFloatField distance;
+    LimitedFloatField speed;
+    LimitedFloatField airFlowRate;
+
+
     public ContinuousBrakeCycleWindow(ContinuousBrakingModel continuousBrakingModel) {
-        this.continuousBrakingModel = continuousBrakingModel;
+//        this.continuousBrakingModel = continuousBrakingModel;
 
         title.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-wrap-text: true; -fx-padding: 5px; -fx-max-width: 350px; -fx-min-height: 70px; -fx-alignment: center;");
         title.setTextAlignment(TextAlignment.CENTER);
 
-        LimitedIntegerField tMin = new LimitedIntegerField("Tmin", "°C", 0, 500, continuousBrakingModel.tMin);
-        tMin.textField.textProperty().addListener(value -> continuousBrakingModel.tMin = tMin.getValue());
+        tMin = new LimitedIntegerField("Tmin", "°C", 0, 500, continuousBrakingModel.tMin);
+        tMin.value.addListener(value -> continuousBrakingModel.tMin = tMin.getValue());
 
-        LimitedIntegerField tMax = new LimitedIntegerField("Tmax", "°C", 0, 500, continuousBrakingModel.tMax);
-        tMax.textField.textProperty().addListener(value -> continuousBrakingModel.tMax = tMax.getValue());
+        tMax = new LimitedIntegerField("Tmax", "°C", 0, 500, continuousBrakingModel.tMax);
+        tMax.value.addListener(value -> continuousBrakingModel.tMax = tMax.getValue());
 
-        LimitedFloatField slope = new LimitedFloatField("Уклон", "%", 0, 500, continuousBrakingModel.slope);
-        slope.textField.textProperty().addListener(value -> continuousBrakingModel.slope = slope.getValue());
-        LimitedFloatField distance = new LimitedFloatField("Расстояние ", "m", 0, 500, continuousBrakingModel.distance);
-        distance.textField.textProperty().addListener(value -> continuousBrakingModel.distance = distance.getValue());
-        LimitedFloatField speed = new LimitedFloatField("Скорость", "km/h", 0, 500, continuousBrakingModel.speed);
-        speed.textField.textProperty().addListener(value -> continuousBrakingModel.speed = speed.getValue());
-        LimitedFloatField airFlowRate = new LimitedFloatField("Скорость потока воздуха", "m/s", 0, 500, continuousBrakingModel.airFlowRate);
-        airFlowRate.textField.textProperty().addListener(value -> continuousBrakingModel.airFlowRate = airFlowRate.getValue());
+        slope = new LimitedFloatField("Уклон", "%", 0, 500, continuousBrakingModel.slope);
+        slope.value.addListener(value -> continuousBrakingModel.slope = slope.getValue());
+        distance = new LimitedFloatField("Расстояние ", "m", 0, 500, continuousBrakingModel.distance);
+        distance.value.addListener(value -> continuousBrakingModel.distance = distance.getValue());
+        speed = new LimitedFloatField("Скорость", "km/h", 0, 500, continuousBrakingModel.speed);
+        speed.value.addListener(value -> continuousBrakingModel.speed = speed.getValue());
+        airFlowRate = new LimitedFloatField("Скорость потока воздуха", "m/s", 0, 500, continuousBrakingModel.airFlowRate);
+        airFlowRate.value.addListener(value -> continuousBrakingModel.airFlowRate = airFlowRate.getValue());
 
 
         Region spacer = new Region();
@@ -65,9 +73,7 @@ public class ContinuousBrakeCycleWindow extends VBox {
         HBox buttonsHbox = new HBox(10, spacer, okBtn, cancelBtn);
         buttonsHbox.setMaxWidth(Double.MAX_VALUE);
 
-        cancelBtn.setOnAction(event -> {
-            stage.close();
-        });
+        buttonsController();
 
         this.setSpacing(10);
         this.setPadding(new Insets(10));
@@ -79,6 +85,16 @@ public class ContinuousBrakeCycleWindow extends VBox {
         stage.setTitle(continuousBrakingModel.name);
         stage.initModality(Modality.APPLICATION_MODAL); // <-- главное
         stage.showAndWait(); // <-- блокирует остальные окна, пока не закроется
+    }
+
+    void buttonsController() {
+        okBtn.setOnAction(event -> {
+
+            stage.close();
+        });
+        cancelBtn.setOnAction(event -> {
+            stage.close();
+        });
     }
 
 
