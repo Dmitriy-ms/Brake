@@ -42,8 +42,8 @@ public class ContinuousBrakeCycleTable extends VBox {
     public ContinuousBrakeCycleTable() {
 
         continuousBrakingModels = Library.LOADED_LIBRARY.continuousCycle != null ? Library.LOADED_LIBRARY.continuousCycle : new ArrayList<>();
+        refreshView();
 
-//        refreshView();
         add.setOnAction(event -> {
 //            rows.add(new CycleTableRow(new ContinuousBrakingModel()));
             continuousBrakingModels.add(new ContinuousBrakingModel());
@@ -123,14 +123,17 @@ public class ContinuousBrakeCycleTable extends VBox {
             nameField.setStyle("-fx-min-height: 25px; -fx-min-width: 70px;-fx-max-width: 70px;-fx-border-width: 1px; -fx-border-color: derive(-fx-base, -20%);-fx-border-radius: 2px; -fx-alignment: center-left;");
 
             this.addEventFilter(MouseEvent.MOUSE_CLICKED, ev -> {
+                if (selectedCycleRow != null) {
+                    selectedCycleRow.setStyle("-fx-border-width: 2px; -fx-border-color: derive(-fx-base, 27%);");
+                }
                 selectedCycleRow = this;
 
                 this.setStyle("-fx-border-width: 2px; -fx-border-color: rgba(9,252,9,0.5);");
-                rows.forEach(row -> {
-                    if (row != this) {
-                        row.setStyle("-fx-border-width: 2px; -fx-border-color: derive(-fx-base, 27%);");
-                    }
-                });
+//                rows.forEach(row -> {
+//                    if (row != this) {
+//                        row.setStyle("-fx-border-width: 2px; -fx-border-color: derive(-fx-base, 27%);");
+//                    }
+//                });
             });
 
 
