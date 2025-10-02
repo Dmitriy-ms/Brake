@@ -1,0 +1,183 @@
+.root {
+    -fx-accent: #1e74c6;
+    -fx-focus-color: -fx-accent;
+    -fx-base: #373e43;
+    -fx-control-inner-background: derive(-fx-base, 35%);
+    -fx-control-inner-background-alt: -fx-control-inner-background;
+}
+
+.label {
+    -fx-text-fill: lightgray;
+}
+
+
+.text-field-err {
+    -fx-text-fill: black;
+    -fx-background-color: red;
+}
+
+.text-field-ok {
+    -fx-text-fill: black;
+    -fx-background-color: lightgray;
+}
+
+.text-field {
+    -fx-prompt-text-fill: gray;
+
+    -fx-background-insets: 0; /* Убираем отступы */
+    -fx-background-radius: 0; /* Убираем скругления */
+    -fx-focus-color: transparent; /* Убираем цвет фокусировки */
+    -fx-faint-focus-color: transparent; /* Убираем вторичный цвет фокусировки */
+    -fx-effect: null; /* Убираем все эффекты (тени, свечения и т.д.) */
+
+    -fx-border-radius: 2px;
+    -fx-border-color: -fx-base; /* Убираем эффект свечения */
+}
+
+.text-field:focused {
+    -fx-prompt-text-fill: gray;
+
+    -fx-background-insets: 0; /* Убираем отступы */
+    -fx-background-radius: 0; /* Убираем скругления */
+    -fx-focus-color: transparent; /* Убираем цвет фокусировки */
+    -fx-faint-focus-color: transparent; /* Убираем вторичный цвет фокусировки */
+    -fx-effect: null;
+
+    -fx-border-radius: 2px;
+    -fx-border-color: -fx-base; /* Убираем эффект свечения */
+
+}
+
+.titulo {
+    -fx-font-weight: bold;
+    -fx-font-size: 18px;
+}
+
+
+.button {
+    -fx-font-size: 12px;
+    -fx-focus-traversable: false;
+}
+
+.button:hover {
+    -fx-text-fill: white;
+}
+
+
+.separator *.line {
+    -fx-background-color: #3C3C3C;
+    -fx-border-style: solid;
+    -fx-border-width: 1px;
+}
+
+.scroll-bar {
+    -fx-background-color: derive(-fx-base, 45%)
+}
+
+.button:default {
+    -fx-base: -fx-accent;
+}
+
+.table-view {
+    /*-fx-background-color: derive(-fx-base, 10%);*/
+    -fx-selection-bar-non-focused: derive(-fx-base, 50%);
+}
+
+.table-view .column-header .label {
+    -fx-alignment: CENTER_LEFT;
+    -fx-font-weight: none;
+}
+
+.list-cell:even,
+.list-cell:odd,
+.table-row-cell:even,
+.table-row-cell:odd {
+    -fx-control-inner-background: derive(-fx-base, 15%);
+}
+
+.list-cell:empty,
+.table-row-cell:empty {
+    -fx-background-color: transparent;
+}
+
+.list-cell,
+.table-row-cell {
+    -fx-border-color: transparent;
+    -fx-table-cell-border-color: transparent;
+}
+
+.linked-check-box-on {
+    -fx-background-color: green;
+}
+
+.linked-check-box-off {
+    -fx-background-color: transparent;
+}
+
+.toggle-button {
+    -fx-font-size: 10px;
+    -fx-pref-width: 50px;
+    -fx-pref-height: 50px;
+    -fx-min-height: 50px;
+    -fx-wrap-text: true;
+
+
+    -fx-background-insets: 0; /* Убираем отступы */
+    -fx-background-radius: 0; /* Убираем скругления */
+    -fx-focus-color: transparent; /* Убираем цвет фокусировки */
+    -fx-faint-focus-color: transparent; /* Убираем вторичный цвет фокусировки */
+    -fx-effect: null; /* Убираем все эффекты (тени, свечения и т.д.) */
+
+    -fx-border-radius: 3px;
+    -fx-border-width: 1px;
+    -fx-border-color: derive(-fx-base, -15%); /* Убираем эффект свечения */
+}
+
+.toggle-button:selected {
+    -fx-background-color: derive(-fx-base, -30%);
+    -fx-border-color: white;
+    -fx-border-radius: 3px;
+    -fx-border-width: 1px;
+    -fx-text-fill: white;
+
+}
+
+
+
+/*.head-title-hbox .label{*/
+/*    -fx-background-color: derive(-fx-base, -80%);*/
+/*    -fx-padding: 0.25em 0.5em 0.25em 0.5em;*/
+
+/*}*/
+.head-title-hbox {
+    -fx-background-color: derive(-fx-base, -10%);
+    -fx-font-weight: bold; -fx-font-size: 16px;
+    -fx-wrap-text: true;
+    -fx-alignment: CENTER_LEFT;
+}
+
+
+/*.ButtonPanel{*/
+/*    -fx-min-height: 150px;*/
+/*}*/
+
+.toggleButton11,
+.toggleButton12{
+    -fx-font-size: 10px;
+    /*-fx-pref-width: 30px;*/
+    -fx-pref-height: 30px;
+    -fx-min-height: 30px;
+    -fx-max-height: 30px;
+    -fx-wrap-text: true;
+
+
+    -fx-background-insets: 0; /* Убираем отступы */
+    -fx-background-radius: 0; /* Убираем скругления */
+    -fx-focus-color: transparent; /* Убираем цвет фокусировки */
+    -fx-faint-focus-color: transparent; /* Убираем вторичный цвет фокусировки */
+    -fx-effect: null; /* Убираем все эффекты (тени, свечения и т.д.) */
+
+    -fx-border-radius: 3px;
+    -fx-border-width: 1px;
+    -fx-border-color: derive(-fx-base, -15%);
+}
