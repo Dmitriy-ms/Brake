@@ -28,15 +28,15 @@ public class BrakingMechanismWidget extends VBox {
     int selectedIndex = 0;
 
     public BrakingMechanismWidget() {
-        Region spacer = new Region();
-        HBox.setHgrow(spacer, Priority.ALWAYS);
+//        Region spacer = new Region();
+//        HBox.setHgrow(spacer, Priority.ALWAYS);
 
         brakeList = Library.LOADED_LIBRARY.brakeModelList != null ? Library.LOADED_LIBRARY.brakeModelList : new ArrayList<>();
-        HBox hBoxBrakeMech = new HBox(10, brakingMechanismLb, spacer, brakingMechanismBox, libraryBrakingMechanismBtn);
+        HBox hBoxBrakeMech = new HBox(10, brakingMechanismLb, brakingMechanismBox, libraryBrakingMechanismBtn);
 
         int minWidthLb = 230;
         limitsBtn.setMinWidth(150);
-//        brakingMechanismLb.setMinWidth(minWidthLb);
+        brakingMechanismLb.setMinWidth(minWidthLb);
         brakingMechanismBox.setMinWidth(minWidthLb);
 
         this.setSpacing(10);

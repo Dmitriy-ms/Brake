@@ -1,11 +1,11 @@
-package ru.volgatest.brake.InsideWindows.Cycle;
+package ru.volgatest.brake.InsideWindows.IntermittentBraking.Cycle;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import ru.volgatest.brake.InsideWindows.SubCycle.SubCycleModel;
+import ru.volgatest.brake.InsideWindows.IntermittentBraking.SubCycle.SubCycleModel;
 
 import java.util.ArrayList;
 import java.util.List;

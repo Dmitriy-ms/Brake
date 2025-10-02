@@ -1,4 +1,4 @@
-package ru.volgatest.brake.InsideWindows.SubCycle;
+package ru.volgatest.brake.InsideWindows.IntermittentBraking.SubCycle;
 
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -59,22 +59,22 @@ public class SubCycleWindow extends VBox {
         refreshView(subCycleModel);
 
         LimitedIntegerField tMin = new LimitedIntegerField("Tmin", "°C", 0, 500, subCycleModel.tMin);
-        tMin.textField.textProperty().addListener(value -> subCycleModel.tMin = tMin.getValue());
+        tMin.value.addListener(value -> subCycleModel.tMin = tMin.getValue());
 
         LimitedIntegerField tMax = new LimitedIntegerField("Tmax", "°C", 0, 500, subCycleModel.tMax);
-        tMax.textField.textProperty().addListener(value -> subCycleModel.tMax = tMax.getValue());
+        tMax.value.addListener(value -> subCycleModel.tMax = tMax.getValue());
 
         LimitedFloatField initialSpeed = new LimitedFloatField("Начальная скорость", "km/h", 0, 500, (float) subCycleModel.initialSpeed);
-        initialSpeed.textField.textProperty().addListener(value -> subCycleModel.initialSpeed = initialSpeed.getValue());
+        initialSpeed.value.addListener(value -> subCycleModel.initialSpeed = initialSpeed.getValue());
         LimitedFloatField finalSpeed = new LimitedFloatField("Конечная скорость", "km/h", 0, 500, (float) subCycleModel.finalSpeed);
-        finalSpeed.textField.textProperty().addListener(value -> subCycleModel.finalSpeed = finalSpeed.getValue());
+        finalSpeed.value.addListener(value -> subCycleModel.finalSpeed = finalSpeed.getValue());
         LimitedFloatField airFlowSpeed = new LimitedFloatField("Скорость потока воздуха", "m/s", 0, 500, (float) subCycleModel.airFlowSpeed);
-        airFlowSpeed.textField.textProperty().addListener(value -> subCycleModel.airFlowSpeed = airFlowSpeed.getValue());
+        airFlowSpeed.value.addListener(value -> subCycleModel.airFlowSpeed = airFlowSpeed.getValue());
 
         LimitedIntegerField cycleDuration = new LimitedIntegerField("Длительность цикла", "s", 0, 500, subCycleModel.cycleDuration);
-        cycleDuration.textField.textProperty().addListener(value -> subCycleModel.cycleDuration = cycleDuration.getValue());
+        cycleDuration.value.addListener(value -> subCycleModel.cycleDuration = cycleDuration.getValue());
         LimitedIntegerField cycleRepeat = new LimitedIntegerField("Количество циклов", "", 0, 500, subCycleModel.repeat);
-        cycleRepeat.textField.textProperty().addListener(value -> subCycleModel.repeat = cycleRepeat.getValue());
+        cycleRepeat.value.addListener(value -> subCycleModel.repeat = cycleRepeat.getValue());
 
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);

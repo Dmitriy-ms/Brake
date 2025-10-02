@@ -1,4 +1,4 @@
-package ru.volgatest.brake.InsideWindows.SubCycle;
+package ru.volgatest.brake.InsideWindows.IntermittentBraking.SubCycle;
 
 import java.util.UUID;
 

@@ -1,4 +1,4 @@
-package ru.volgatest.brake.InsideWindows.Cycle;
+package ru.volgatest.brake.InsideWindows.IntermittentBraking.Cycle;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -11,7 +11,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import ru.volgatest.brake.InsideWindows.SubCycle.SubCycleTable;
+import ru.volgatest.brake.InsideWindows.IntermittentBraking.SubCycle.SubCycleTable;
 import ru.volgatest.brake.ObjectsLibrary.Library;
 import ru.volgatest.brake.Widgets.LimitedIntegerField;
 

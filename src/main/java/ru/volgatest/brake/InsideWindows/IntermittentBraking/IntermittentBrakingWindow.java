@@ -15,22 +15,34 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import ru.volgatest.brake.InsideWindows.BrakingMechanisms.BrakingMechanismWidget;
-import ru.volgatest.brake.InsideWindows.Cycle.CycleTable;
+import ru.volgatest.brake.InsideWindows.IntermittentBraking.Cycle.CycleModel;
+import ru.volgatest.brake.InsideWindows.IntermittentBraking.Cycle.CycleTable;
 import ru.volgatest.brake.ObjectsLibrary.Library;
 import ru.volgatest.brake.Widgets.LimitedFloatField;
 import ru.volgatest.brake.Widgets.LimitedIntegerField;
 
+import java.util.ArrayList;
+import java.util.List;
+
 //Прерывистое торможение
 public class IntermittentBrakingWindow extends VBox {
 
-    Stage stage;
+    public Stage stage;
 
     Label title = new Label("Характеристики испытания");
 
     Label titleTesting = new Label("Испытание в режиме прерывистого торможения");
 
     Label testingLb = new Label("Прерывистое торможение");
-    ComboBox<String> testingBox;
+
+    //////////// Выпадающий список программ
+    ComboBox<String> cyclesBox = new ComboBox<String>();
+    static ObservableList<String> observableCycles = FXCollections.observableArrayList();
+    static List<CycleModel> cyclesList;
+    public CycleModel selectedBrake;
+    int selectedIndex = 0;
+    ///////////
+
     Button libraryTestingBtn = new Button("Библиотека испытаний");
 
     Label tempSensorLb = new Label("Датчик температуры");
@@ -49,11 +61,9 @@ public class IntermittentBrakingWindow extends VBox {
         title.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-wrap-text: true; -fx-padding: 5px; -fx-max-width: 300px; -fx-alignment: center;");
         titleTesting.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-wrap-text: true; -fx-padding: 5px; -fx-max-width: 450px; -fx-alignment: center;");
 
-        ObservableList<String> testing = FXCollections.observableArrayList("Тест_1", "Тест_2", "Тест_3", "Тест_4");
-        testingBox = new ComboBox<String>(testing);
-        testingBox.setValue(testing.get(0)); // устанавливаем выбранный элемент по умолчанию
+        cyclesList = Library.LOADED_LIBRARY.cycleModelList != null ? Library.LOADED_LIBRARY.cycleModelList : new ArrayList<>();
 
-        HBox hBoxTesting = new HBox(10, testingLb, testingBox, libraryTestingBtn);
+        HBox hBoxTesting = new HBox(10, testingLb, cyclesBox, libraryTestingBtn);
 
         ObservableList<String> tempSensor = FXCollections.observableArrayList("IR", "RR", "NR", "MR");
         tempSensorBox = new ComboBox<String>(tempSensor);
@@ -66,6 +76,7 @@ public class IntermittentBrakingWindow extends VBox {
         int minWidthLb = 230;
         testingLb.setMinWidth(minWidthLb);
         tempSensorLb.setMinWidth(minWidthLb);
+        cyclesBox.setMinWidth(minWidthLb);
 
 
         Region spacer = new Region();
@@ -80,8 +91,9 @@ public class IntermittentBrakingWindow extends VBox {
         BrakingMechanismWidget brakingMechanismWidget = new BrakingMechanismWidget(); //brakingMechanismBox
         this.getChildren().addAll(title, brakingMechanismWidget, titleTesting, vBoxTesting, footerHBox);
         buttonsController(); //Обработка нажатия кнопок
+        updateObservableList(); //Обновление списка
 
-        Scene scene = new Scene(this, 650, 370);
+        Scene scene = new Scene(this, 670, 370);
         scene.getStylesheets().add("/main.css");
         stage.setTitle("Прерывестое торможение");
         stage.setScene(scene); // Размер можно подогнать
@@ -94,6 +106,7 @@ public class IntermittentBrakingWindow extends VBox {
          libraryTestingBtn.setOnAction(event -> {
              CycleTable cycleTable = new CycleTable();
              Library.saveData(Library.LOADED_LIBRARY.cycleModelList);
+             updateObservableList();
          });
         OKBtn.setOnAction(e -> {
             stage.close();
@@ -103,9 +116,34 @@ public class IntermittentBrakingWindow extends VBox {
         });
     }
 
-    public Stage getStage() {
-        return stage;
+    public void updateObservableList() {
+        observableCycles.clear();
+        for (int i = 0; i < cyclesList.size(); i++) {
+            observableCycles.add((i + 1) + ". " + cyclesList.get(i).name);
+        }
+
+        setBrakingMechanismBox();
+
     }
+
+    public void setBrakingMechanismBox() {
+        cyclesBox.getItems().setAll(observableCycles);
+        cyclesBox.setValue(observableCycles.get(selectedIndex)); // устанавливаем выбранный элемент по умолчанию
+
+        cyclesBox.valueProperty().addListener((observable, oldValue, newValue) -> { // Выбор механизма из списка, поиск в библиотеке по имени и запись в переменную selectedBrake
+            if (newValue != null) {
+                selectedIndex = cyclesBox.getSelectionModel().getSelectedIndex();
+                selectedBrake = cyclesList.get(selectedIndex);
+                System.out.println("Выбрана программа: " + selectedBrake.name + " индекс:"+selectedIndex);
+
+            }
+
+        });
+    }
+
+
+
+
 
 
 }

@@ -24,6 +24,7 @@ public class HelloApplication extends Application {
         Scene scene = new Scene(new MainPanel(), 1900, 1000);
         scene.getStylesheets().add("/main.css");
         primaryStage.setScene(scene);
+        primaryStage.setMaximized(true);
 //        primaryStage.setAlwaysOnTop(true);
         primaryStage.show();
     }

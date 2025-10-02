@@ -6,8 +6,8 @@
 //import com.google.gson.reflect.TypeToken;
 //import ru.volgatest.brake.InsideWindows.BrakingMechanisms.BrakeModel;
 //import ru.volgatest.brake.InsideWindows.ContinuousBraking.ContinuousBrakingModel;
-//import ru.volgatest.brake.InsideWindows.Cycle.CycleModel;
-//import ru.volgatest.brake.InsideWindows.SubCycle.SubCycleModel;
+//import ru.volgatest.brake.InsideWindows.IntermittentBraking.Cycle.CycleModel;
+//import ru.volgatest.brake.InsideWindows.IntermittentBraking.SubCycle.SubCycleModel;
 //import ru.volgatest.brake.SimpleLogger.MsgType;
 //import ru.volgatest.brake.SimpleLogger.SimpleLogger;
 //

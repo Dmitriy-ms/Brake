@@ -9,8 +9,8 @@ module ru.volgatest.brake {
     requires com.google.gson;
 
     opens ru.volgatest.brake.InsideWindows.BrakingMechanisms to com.google.gson;
-    opens ru.volgatest.brake.InsideWindows.Cycle to com.google.gson;
-    opens ru.volgatest.brake.InsideWindows.SubCycle to com.google.gson;
+    opens ru.volgatest.brake.InsideWindows.IntermittentBraking.Cycle to com.google.gson;
+    opens ru.volgatest.brake.InsideWindows.IntermittentBraking.SubCycle to com.google.gson;
     opens ru.volgatest.brake.InsideWindows.ContinuousBraking to com.google.gson;
 
     opens ru.volgatest.brake to javafx.fxml;

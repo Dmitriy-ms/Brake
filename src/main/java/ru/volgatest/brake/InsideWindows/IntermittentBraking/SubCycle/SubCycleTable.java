@@ -1,4 +1,4 @@
-package ru.volgatest.brake.InsideWindows.SubCycle;
+package ru.volgatest.brake.InsideWindows.IntermittentBraking.SubCycle;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -51,6 +51,7 @@ public class SubCycleTable extends VBox {
         });
 
         edit.setOnAction(event -> {
+            if(selectedSubCycleRow == null) return;
             SubCycleWindow subCycleWindow = new SubCycleWindow(selectedSubCycleRow.subCycleModel);
             Library.saveData(Library.LOADED_LIBRARY.subCycleModelList);
         });

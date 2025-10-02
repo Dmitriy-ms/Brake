@@ -16,16 +16,26 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import ru.volgatest.brake.InsideWindows.BrakingMechanisms.BrakingMechanismWidget;
 import ru.volgatest.brake.InsideWindows.ContinuousBraking.ContinuousCycle.ContinuousBrakeCycleTable;
+import ru.volgatest.brake.ObjectsLibrary.Library;
 import ru.volgatest.brake.Widgets.LimitedIntegerField;
 
-public class ContinuousBrakingWindow extends VBox{
+import java.util.ArrayList;
+import java.util.List;
+
+public class ContinuousBrakingWindow extends VBox {
     Stage stage = new Stage();
 
     Label title = new Label("Характеристики испытания");
     Label titleTesting = new Label("Испытание в режиме непрерывного торможения");
 
     Label testingLb = new Label("Непрерывное торможение");
-//    ComboBox<String> testingBox;
+    //////////// Выпадающий список программ
+    ComboBox<String> continuousCyclesBox = new ComboBox<String>();
+    static ObservableList<String> continuousCyclesObservable = FXCollections.observableArrayList();
+    static List<ContinuousBrakingModel> continuousCycles;
+    public ContinuousBrakingModel selectedContinuousBraking;
+    int selectedIndex = 0;
+    ///////////
     Button libraryTestingBtn = new Button("Библиотека испытаний");
 
     LimitedIntegerField decelerationTorque = new LimitedIntegerField("Замедляющий момент", "Nm", 0, 500, 0);
@@ -39,8 +49,9 @@ public class ContinuousBrakingWindow extends VBox{
         title.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-wrap-text: true; -fx-padding: 5px; -fx-max-width: 300px; -fx-alignment: center;");
         titleTesting.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-wrap-text: true; -fx-padding: 5px;  -fx-alignment: center;"); //-fx-max-width: 450px;
 
-
-        HBox hBoxTesting = new HBox(10, testingLb, libraryTestingBtn);
+        continuousCycles = Library.LOADED_LIBRARY.continuousCycle != null ? Library.LOADED_LIBRARY.continuousCycle : new ArrayList<>();
+        updateObservableList();
+        HBox hBoxTesting = new HBox(10, testingLb, continuousCyclesBox, libraryTestingBtn);
 
 
         VBox vBoxTesting = new VBox(10, hBoxTesting, decelerationTorque);
@@ -49,7 +60,8 @@ public class ContinuousBrakingWindow extends VBox{
 
         int minWidthLb = 230;
         testingLb.setMinWidth(minWidthLb);
-        decelerationTorque.setNameWidth(minWidthLb);
+        decelerationTorque.setNameWidth(240);
+        continuousCyclesBox.setMinWidth(minWidthLb);
 
 
         Region spacer = new Region();
@@ -66,7 +78,7 @@ public class ContinuousBrakingWindow extends VBox{
 
         buttonsController();
 
-        Scene scene = new Scene(this, 650, 370);
+        Scene scene = new Scene(this, 670, 370);
         scene.getStylesheets().add("/main.css");
         stage.setTitle("Непрерывное торможение");
         stage.setScene(scene); // Размер можно подогнать
@@ -78,13 +90,40 @@ public class ContinuousBrakingWindow extends VBox{
     void buttonsController() {
         libraryTestingBtn.setOnAction(e -> {
             ContinuousBrakeCycleTable continuousBrakeCycleTable = new ContinuousBrakeCycleTable();
-            continuousBrakeCycleTable.saveData();
+            Library.saveData(Library.LOADED_LIBRARY.continuousCycle);
+            updateObservableList();
+//            continuousBrakeCycleTable.saveData();
         });
         OKBtn.setOnAction(e -> {
             stage.close();
         });
         canBtn.setOnAction(e -> {
             stage.close();
+        });
+    }
+
+    public void updateObservableList() {
+        continuousCyclesObservable.clear();
+        for (int i = 0; i < continuousCycles.size(); i++) {
+            continuousCyclesObservable.add((i + 1) + ". " + continuousCycles.get(i).name);
+        }
+
+        setBrakingMechanismBox();
+
+    }
+
+    public void setBrakingMechanismBox() {
+        continuousCyclesBox.getItems().setAll(continuousCyclesObservable);
+        continuousCyclesBox.setValue(continuousCyclesObservable.get(selectedIndex)); // устанавливаем выбранный элемент по умолчанию
+
+        continuousCyclesBox.valueProperty().addListener((observable, oldValue, newValue) -> { // Выбор механизма из списка, поиск в библиотеке по имени и запись в переменную selectedBrake
+            if (newValue != null) {
+                selectedIndex = continuousCyclesBox.getSelectionModel().getSelectedIndex();
+                selectedContinuousBraking = continuousCycles.get(selectedIndex);
+                System.out.println("Выбрана программа: " + selectedContinuousBraking.name + " индекс:"+selectedIndex);
+
+            }
+
         });
     }
 
