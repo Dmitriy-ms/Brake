@@ -16,6 +16,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import ru.volgatest.brake.InsideWindows.BrakingMechanisms.BrakingMechanismWidget;
 import ru.volgatest.brake.InsideWindows.Cycle.CycleTable;
+import ru.volgatest.brake.ObjectsLibrary.Library;
 import ru.volgatest.brake.Widgets.LimitedFloatField;
 import ru.volgatest.brake.Widgets.LimitedIntegerField;
 
@@ -92,6 +93,7 @@ public class IntermittentBrakingWindow extends VBox {
      void buttonsController() {
          libraryTestingBtn.setOnAction(event -> {
              CycleTable cycleTable = new CycleTable();
+             Library.saveData(Library.LOADED_LIBRARY.cycleModelList);
          });
         OKBtn.setOnAction(e -> {
             stage.close();

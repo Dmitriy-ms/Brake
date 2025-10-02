@@ -18,9 +18,10 @@ import java.util.List;
 
 public class SubCycleTable extends VBox {
 
-    List<SubCycleTableRow> rows = new ArrayList<>();
+//    List<SubCycleTableRow> rows = new ArrayList<>();
 
     SubCycleTableRow selectedSubCycleRow;
+    List<SubCycleModel> selectedSubCycles;
 
     Button add = new Button("+");
     Button delete = new Button("-");
@@ -36,24 +37,27 @@ public class SubCycleTable extends VBox {
 
     public SubCycleTable() {
 
+        selectedSubCycles = Library.LOADED_LIBRARY.subCycleModelList != null ? Library.LOADED_LIBRARY.subCycleModelList : new ArrayList<>();
+        refreshView();
 
         add.setOnAction(event -> {
-            rows.add(new SubCycleTableRow(new SubCycleModel()));
+            selectedSubCycles.add(new SubCycleModel());
             refreshView();
         });
 
         delete.setOnAction(event -> {
-            rows.remove(selectedSubCycleRow);
+            selectedSubCycles.remove(selectedSubCycleRow.subCycleModel);
             refreshView();
         });
 
         edit.setOnAction(event -> {
             SubCycleWindow subCycleWindow = new SubCycleWindow(selectedSubCycleRow.subCycleModel);
+            Library.saveData(Library.LOADED_LIBRARY.subCycleModelList);
         });
 
         copy.setOnAction(event -> {
             if (selectedSubCycleRow != null) {
-                rows.add(new SubCycleTableRow(selectedSubCycleRow.subCycleModel.clone()));
+                selectedSubCycles.add(selectedSubCycleRow.subCycleModel.clone());
                 refreshView();
             }
         });
@@ -66,20 +70,21 @@ public class SubCycleTable extends VBox {
         scene.getStylesheets().add("/main.css");
 
         Stage stage = new Stage();
-        stage.setTitle("Библиотека испытаний");
+        stage.setTitle("Библиотека подциклов");
         stage.setScene(scene);
         stage.initModality(Modality.APPLICATION_MODAL); // <-- главное
         stage.showAndWait(); // <-- блокирует остальные окна, пока не закроется
-        stage.setOnHidden(event -> {
-            Library.saveData(Library.LOADED_LIBRARY.subCycleModelList);
-        });
+//        stage.setOnHidden(event -> {
+//            Library.saveData(Library.LOADED_LIBRARY.subCycleModelList);
+//        });
 
     }
 
     public void refreshView() {
+        Library.LOADED_LIBRARY.subCycleModelList = selectedSubCycles;
         table.getChildren().clear();
-        for (int i = 0; i < rows.size(); i++) {
-            SubCycleTableRow row = rows.get(i);
+        for (int i = 0; i < selectedSubCycles.size(); i++) {
+            SubCycleTableRow row = new SubCycleTableRow(selectedSubCycles.get(i));
             row.numberLb.setText(String.valueOf(i));
             row.number = i;
             table.getChildren().add(row);
@@ -108,14 +113,17 @@ public class SubCycleTable extends VBox {
             nameField.setStyle("-fx-min-height: 25px; -fx-min-width: 70px;-fx-max-width: 70px;-fx-border-width: 1px; -fx-border-color: derive(-fx-base, -20%);-fx-border-radius: 2px; -fx-alignment: center-left;");
 
             this.addEventFilter(MouseEvent.MOUSE_CLICKED, ev -> {
+                if (selectedSubCycleRow != null) {
+                    selectedSubCycleRow.setStyle("-fx-border-width: 2px; -fx-border-color: derive(-fx-base, 27%);");
+                }
                 selectedSubCycleRow = this;
 
                 this.setStyle("-fx-border-width: 2px; -fx-border-color: rgba(9,252,9,0.5);");
-                rows.forEach(row -> {
-                    if (row != this) {
-                        row.setStyle("-fx-border-width: 2px; -fx-border-color: derive(-fx-base, 27%);");
-                    }
-                });
+//                rows.forEach(row -> {
+//                    if (row != this) {
+//                        row.setStyle("-fx-border-width: 2px; -fx-border-color: derive(-fx-base, 27%);");
+//                    }
+//                });
             });
 
 

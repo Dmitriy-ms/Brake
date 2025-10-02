@@ -17,7 +17,7 @@ import ru.volgatest.brake.Widgets.LimitedIntegerField;
 public class SubCycleWindow extends VBox {
     Stage stage = new Stage();
 
-    SubCycleModel subCycleModel;
+//    SubCycleModel subCycleModel;
 
     Label title = new Label("Испытание в режиме прерывистого торможения");
 
@@ -47,7 +47,7 @@ public class SubCycleWindow extends VBox {
 //    LimitedIntegerField cycleCount = new LimitedIntegerField("Количество циклов", "", 0, 500, 0);
 
     public SubCycleWindow(SubCycleModel subCycleModel) {
-        this.subCycleModel = subCycleModel;
+//        this.subCycleModel = subCycleModel;
 
         title.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-wrap-text: true; -fx-padding: 5px; -fx-max-width: 350px; -fx-min-height: 70px; -fx-alignment: center;");
         title.setTextAlignment(TextAlignment.CENTER);
@@ -56,7 +56,7 @@ public class SubCycleWindow extends VBox {
         preheating.setStyle("-fx-text-fill: black;");
         precooling.setStyle("-fx-text-fill: black;");
         HBox heatAndCoolHBox = new HBox(10, preheatingBox, precoolingBox);
-        refreshView();
+        refreshView(subCycleModel);
 
         LimitedIntegerField tMin = new LimitedIntegerField("Tmin", "°C", 0, 500, subCycleModel.tMin);
         tMin.textField.textProperty().addListener(value -> subCycleModel.tMin = tMin.getValue());
@@ -86,7 +86,8 @@ public class SubCycleWindow extends VBox {
         this.setPadding(new Insets(10));
         this.getChildren().addAll(title, temperatureBox, heatAndCoolHBox, tMin, tMax, initialSpeed, finalSpeed, airFlowSpeed, cycleDuration, cycleRepeat, buttonsHbox);
 
-        SubCycleController subCycleController = new SubCycleController(this);
+//        SubCycleController subCycleController = new SubCycleController(this);
+        controller(subCycleModel);
 
         Scene scene = new Scene(this, 370, 450);
         scene.getStylesheets().add("/main.css");
@@ -96,7 +97,7 @@ public class SubCycleWindow extends VBox {
         stage.showAndWait(); // <-- блокирует остальные окна, пока не закроется
     }
 
-    public void refreshView() {
+    public void refreshView(SubCycleModel subCycleModel) {
         if (!subCycleModel.isTemperatureCheckedEachCycle) {
             temperatureCheck.setText("Контроль температуры перед началом испытания");
             temperatureBox.setStyle("-fx-min-width: 310px;-fx-max-width: 305px;-fx-border-color: derive(-fx-base, -20%); -fx-border-width: 1px; -fx-background-color: yellow; ; -fx-alignment: center; -fx-padding: 10px;");
@@ -118,5 +119,32 @@ public class SubCycleWindow extends VBox {
             precooling.setText("Предохлаждение");
             precoolingBox.setStyle("-fx-min-width: 150px;-fx-max-width: 150px;-fx-border-color: derive(-fx-base, -20%); -fx-border-width: 1px; -fx-background-color: #77c3f4;-fx-alignment: center; -fx-padding: 10px;");
         }
+    }
+
+    void controller(SubCycleModel subCycleModel) {
+        temperatureBox.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2) {
+                subCycleModel.isTemperatureCheckedEachCycle = !subCycleModel.isTemperatureCheckedEachCycle;
+                refreshView(subCycleModel);
+            }
+        });
+        preheatingBox.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2) {
+                subCycleModel.isPreheatingEnabled = !subCycleModel.isPreheatingEnabled;
+                refreshView(subCycleModel);
+            }
+        });
+        precoolingBox.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2) {
+                subCycleModel.isPrecoolingEnabled = !subCycleModel.isPrecoolingEnabled;
+                refreshView(subCycleModel);
+            }
+        });
+        okBtn.setOnAction(event -> {
+            stage.close();
+        });
+        cancelBtn.setOnAction(event -> {
+            stage.close();
+        });
     }
 }

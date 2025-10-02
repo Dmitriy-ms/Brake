@@ -20,15 +20,17 @@ import java.util.List;
 
 public class CycleTable extends VBox {
 
-    List<SubCycleTableRow> rows = new ArrayList<>();
+//    List<SubCycleTableRow> rows = new ArrayList<>();
 
-    SubCycleTableRow selectedSubCycleRow;
+    CycleTableRow selectedCycleRow;
+
+    List<CycleModel> cycleModelList;
 
     Button add = new Button("+");
     Button delete = new Button("-");
     Button edit = new Button("edit");
     Button copy = new Button("copy");
-    Button openLibrarySubCycle = new Button("Библиотке испытаний");
+    Button openLibrarySubCycle = new Button("Библиотка подциклов");
     HBox buttonBox = new HBox(10, add, delete, edit, copy, openLibrarySubCycle);
 
     Label numberLb = new Label("No");
@@ -40,30 +42,33 @@ public class CycleTable extends VBox {
 
     public CycleTable() {
 
-
+        cycleModelList = Library.LOADED_LIBRARY.cycleModelList != null ? Library.LOADED_LIBRARY.cycleModelList : new ArrayList<>();
+        refreshView();
         add.setOnAction(event -> {
-            rows.add(new SubCycleTableRow(new CycleModel()));
+            cycleModelList.add(new CycleModel());
             refreshView();
         });
 
         delete.setOnAction(event -> {
-            rows.remove(selectedSubCycleRow);
+            cycleModelList.remove(selectedCycleRow.cycleModel);
             refreshView();
         });
 
         edit.setOnAction(event -> {
-            SelectSubCycleWindow selectSubCycleWindow = new SelectSubCycleWindow(selectedSubCycleRow.cycleModel, selectedSubCycleRow.cycleModel.subCycleModels);
+            SelectSubCycleWindow selectSubCycleWindow = new SelectSubCycleWindow(selectedCycleRow.cycleModel, selectedCycleRow.cycleModel.subCycleModels);
+            Library.saveData(selectSubCycleWindow.subCycleModels);
         });
 
         copy.setOnAction(event -> {
-            if (selectedSubCycleRow != null) {
-                rows.add(new SubCycleTableRow(selectedSubCycleRow.cycleModel.clone()));
+            if (selectedCycleRow != null) {
+                cycleModelList.add(selectedCycleRow.cycleModel.clone());
                 refreshView();
             }
         });
 
         openLibrarySubCycle.setOnAction(event -> {
             SubCycleTable subCycleTable = new SubCycleTable();
+            Library.saveData(Library.LOADED_LIBRARY.subCycleModelList);
         });
 
         this.setSpacing(10);
@@ -78,13 +83,14 @@ public class CycleTable extends VBox {
         stage.setScene(scene);
         stage.initModality(Modality.APPLICATION_MODAL); // <-- главное
         stage.showAndWait(); // <-- блокирует остальные окна, пока не закроется
-        stage.setOnHidden(event -> Library.saveData(Library.LOADED_LIBRARY.cycleModelList));
+//        stage.setOnHidden(event -> Library.saveData(Library.LOADED_LIBRARY.cycleModelList));
     }
 
     public void refreshView() {
+        Library.LOADED_LIBRARY.cycleModelList = cycleModelList;
         table.getChildren().clear();
-        for (int i = 0; i < rows.size(); i++) {
-            SubCycleTableRow row = rows.get(i);
+        for (int i = 0; i < cycleModelList.size(); i++) {
+            CycleTableRow row = new CycleTableRow(cycleModelList.get(i));
             row.numberLb.setText(String.valueOf(i));
             row.number = i;
             table.getChildren().add(row);
@@ -93,7 +99,7 @@ public class CycleTable extends VBox {
 
     }
 
-    class SubCycleTableRow extends HBox {
+    class CycleTableRow extends HBox {
         public CycleModel cycleModel;
 
         int number = 0;
@@ -104,7 +110,7 @@ public class CycleTable extends VBox {
         TextField nameField = new TextField();
         LimitedIntegerField repeatField = new LimitedIntegerField("", "", 0, 500, 0);
 
-        public SubCycleTableRow(CycleModel cycleModel) {
+        public CycleTableRow(CycleModel cycleModel) {
             this.cycleModel = cycleModel;
 
             numberLb.setStyle("-fx-min-height: 25px; -fx-min-width: 25px;-fx-border-width: 1px; -fx-border-color: derive(-fx-base, -20%); -fx-border-radius: 2px; -fx-alignment: center;");
@@ -122,14 +128,18 @@ public class CycleTable extends VBox {
 
 
             this.addEventFilter(MouseEvent.MOUSE_CLICKED, ev -> {
-                selectedSubCycleRow = this;
+                if (selectedCycleRow != null) {
+                    selectedCycleRow.setStyle("-fx-border-width: 2px; -fx-border-color: derive(-fx-base, 27%);");
+                }
+
+                selectedCycleRow = this;
 
                 this.setStyle("-fx-border-width: 2px; -fx-border-color: rgba(9,252,9,0.5);");
-                rows.forEach(row -> {
-                    if (row != this) {
-                        row.setStyle("-fx-border-width: 2px; -fx-border-color: derive(-fx-base, 27%);");
-                    }
-                });
+//                rows.forEach(row -> {
+//                    if (row != this) {
+//                        row.setStyle("-fx-border-width: 2px; -fx-border-color: derive(-fx-base, 27%);");
+//                    }
+//                });
             });
 
 

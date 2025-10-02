@@ -92,7 +92,7 @@ public class TableBrake extends VBox {
         stage.setScene(scene);
         stage.initModality(Modality.APPLICATION_MODAL); // <-- главное
         stage.showAndWait(); // <-- блокирует остальные окна, пока не закроется
-        stage.setOnHidden(event -> Library.saveData(brakeList));
+//        stage.setOnHidden(event -> Library.saveData(brakeList)); //Работало сохранение
     }
 
     public void refreshView() {

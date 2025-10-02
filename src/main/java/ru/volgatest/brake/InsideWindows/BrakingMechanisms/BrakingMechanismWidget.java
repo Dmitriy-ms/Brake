@@ -89,6 +89,7 @@ public class BrakingMechanismWidget extends VBox {
         });
         libraryBrakingMechanismBtn.setOnAction(event -> {
             TableBrake tableBrake = new TableBrake();
+            Library.saveData(Library.LOADED_LIBRARY.brakeModelList);
             updateObservableList();
 
         });
