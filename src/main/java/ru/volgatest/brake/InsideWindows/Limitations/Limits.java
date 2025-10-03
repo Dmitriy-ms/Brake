@@ -21,6 +21,12 @@ public class Limits extends VBox {
     LimitedFloatField pneumaticPressure = new LimitedFloatField("Пневматическое давление:", "bar", 0, 10000, 0);
     LimitedFloatField temp = new LimitedFloatField("Температура:", "°C", 0, 10000, 0);
 
+    public float rotationSpeedValue = 0;
+    public float torqueValue = 0;
+    public float hydraulicPressureValue = 0;
+    public float pneumaticPressureValue = 0;
+    public float tempValue = 0;
+
     Button okBtn = new Button("OK");
     Button cancelBtn = new Button("Отмена");
 
@@ -32,6 +38,14 @@ public class Limits extends VBox {
 
         HBox buttonBox = new HBox(10,spacer, okBtn, cancelBtn);
         buttonBox.setMaxWidth(Double.MAX_VALUE);
+
+        rotationSpeed.value.addListener(value -> rotationSpeedValue = rotationSpeed.getValue());
+        torque.value.addListener(value -> torqueValue = torque.getValue());
+        hydraulicPressure.value.addListener(value -> hydraulicPressureValue = hydraulicPressure.getValue());
+        pneumaticPressure.value.addListener(value -> pneumaticPressureValue = pneumaticPressure.getValue());
+        temp.value.addListener(value -> tempValue = temp.getValue());
+
+        okBtn.setOnMouseClicked(event -> stage.close());
 
         cancelBtn.setOnMouseClicked(event -> stage.close());
 

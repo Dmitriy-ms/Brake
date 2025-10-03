@@ -55,8 +55,8 @@ public class CycleTable extends VBox {
         });
 
         edit.setOnAction(event -> {
-            SelectSubCycleWindow selectSubCycleWindow = new SelectSubCycleWindow(selectedCycleRow.cycleModel, selectedCycleRow.cycleModel.subCycleModels);
-            Library.saveData(selectSubCycleWindow.subCycleModels);
+            SelectSubCycleWindow selectSubCycleWindow = new SelectSubCycleWindow(selectedCycleRow.cycleModel/*, selectedCycleRow.cycleModel.subCycleModels*/);
+            Library.saveData(Library.LOADED_LIBRARY.subCycleModelList);
         });
 
         copy.setOnAction(event -> {

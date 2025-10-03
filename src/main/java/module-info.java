@@ -7,6 +7,7 @@ module ru.volgatest.brake {
     requires javafx.swing;
     requires Medusa;
     requires com.google.gson;
+    requires org.apache.poi.poi;
 
     opens ru.volgatest.brake.InsideWindows.BrakingMechanisms to com.google.gson;
     opens ru.volgatest.brake.InsideWindows.IntermittentBraking.Cycle to com.google.gson;

@@ -7,8 +7,10 @@ import java.util.*;
 public class CycleModel {
     public String name;
     public int repeat;
-    public List<SubCycleModel> subCycleModels = new ArrayList<>();
-    public Map<UUID, SubCycleModel> subCycleMap = new HashMap<>();
+//    public List<SubCycleModel> subCycleModels = new ArrayList<>();
+    public Map<UUID, Integer> subCycleMap = new LinkedHashMap<>();
+
+    //Возмоно надо будет сделать List<Map<UUID, Integer>> для того чтобы хранить несколько повторений одно и того же подцикла в одном цикле
 
     public CycleModel clone() {
         try {

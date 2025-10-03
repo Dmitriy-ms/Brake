@@ -1,5 +1,4 @@
 package ru.volgatest.brake.InsideWindows.ContinuousBraking;
-
 public class ContinuousBrakingModel {
     public String name;
     public int tMin = 0;

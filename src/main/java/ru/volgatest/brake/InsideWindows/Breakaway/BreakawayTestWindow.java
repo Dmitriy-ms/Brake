@@ -11,9 +11,11 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import ru.volgatest.brake.InsideWindows.BrakingMechanisms.BrakeModel;
 import ru.volgatest.brake.InsideWindows.BrakingMechanisms.BrakingMechanismWidget;
+import ru.volgatest.brake.PLC.PLCCommandController;
 import ru.volgatest.brake.Widgets.LimitedIntegerField;
+
+import java.nio.ByteBuffer;
 
 public class BreakawayTestWindow extends VBox {
 
@@ -21,27 +23,31 @@ public class BreakawayTestWindow extends VBox {
 
     Label title = new Label("Характеристики испытания");
     Label titleTesting = new Label("Статическое испытание на страгивание");
-    LimitedIntegerField controlPressureLiF = new LimitedIntegerField("Давление в управляющей магистрали", "bar", 0, 500, 0);
+    LimitedIntegerField controlPressureLiF = new LimitedIntegerField("Давление тормозного цилиндра", "bar", 0, 500, 0);
+    LimitedIntegerField maxForceLiF = new LimitedIntegerField("Максимальное усилие", "", 0, 500, 0);
+    LimitedIntegerField accelerationLiF = new LimitedIntegerField("Скорость нарастания усилия", "", 0, 500, 0);
 
-    Button OKBtn = new Button("OK");
+    Button startTest = new Button("Запустить испытание");
     Button canBtn = new Button("Отмена");
 
 
     public BreakawayTestWindow() {
 
 
-        VBox controlPressureVBox = new VBox(10, controlPressureLiF);
+        VBox controlPressureVBox = new VBox(10, controlPressureLiF, maxForceLiF, accelerationLiF);
         controlPressureVBox.setStyle("-fx-border-width: 1px; -fx-border-color: derive(-fx-base, -20%); -fx-border-radius: 1px; -fx-padding: 5px;");
 
 
         int minWidthLb = 230;
         controlPressureLiF.setNameWidth(minWidthLb);
+        maxForceLiF.setNameWidth(minWidthLb);
+        accelerationLiF.setNameWidth(minWidthLb);
 
 
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
-        HBox footerHBox = new HBox(10, spacer, OKBtn, canBtn);
+        HBox footerHBox = new HBox(10, spacer, startTest, canBtn);
         footerHBox.setMaxWidth(Double.MAX_VALUE);
 
         buttonsController();
@@ -65,7 +71,15 @@ public class BreakawayTestWindow extends VBox {
 
 
     public void buttonsController() {
-        OKBtn.setOnAction(event -> stage.close());
+        startTest.setOnAction(event -> {
+            ByteBuffer buf = ByteBuffer.allocate(25);
+            buf.putFloat((float)controlPressureLiF.getValue());
+            buf.putFloat((float)maxForceLiF.getValue());
+            buf.putFloat((float)accelerationLiF.getValue());
+            PLCCommandController.staticMode(buf);
+            System.out.println("Start static mode");
+//            stage.close();
+        });
         canBtn.setOnAction(event -> stage.close());
     }
 
